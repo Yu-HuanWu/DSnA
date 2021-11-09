@@ -12,5 +12,21 @@
 # Output: true
 
 def contains_duplicate(nums)
-    
+    # i = 0
+    # while i< nums.length-1
+    #     temp = nums.shift
+    #     if nums.include?(temp)
+    #         return true
+    #     end
+    # end
+    # return false
+
+    hash= Hash.new {|h, k| h[k]= 0}
+    nums.each do |i|
+        hash[i]+=1
+    end
+    hash.values.any? {|x| x >=2}
+        
 end
+
+p contains_duplicate([4,2,3,1])
