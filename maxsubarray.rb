@@ -19,5 +19,24 @@
 # -104 <= nums[i] <= 104
 
 def max_sub_array(nums)
-    
+    i = 0
+    max= nums[i]
+    temp= 0
+    while i < nums.length
+        j= i+1
+        if nums[i] > max
+            max= nums[i]
+        end
+        while j< nums.length
+            if nums[i..j].sum > max
+                max= nums[i..j].sum
+            end
+            j+=1
+        end
+        i+=1
+    end
+    return max
 end
+
+p max_sub_array([-2,1,-3,4,-1,2,1,-5,4])
+p max_sub_array([-2, 1])
