@@ -10,8 +10,6 @@
 # element of this array.
 # You must write an algorithm that runs in O(log n) time.
 
- 
-
 # Example 1:
 # Input: nums = [3,4,5,1,2]
 # Output: 1
@@ -35,5 +33,7 @@
 # nums is sorted and rotated between 1 and n times.
 
 def find_min(nums)
-    
+    nums.sort[0]
 end
+
+p find_min([11,13,15,17])
