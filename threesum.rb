@@ -20,5 +20,5 @@
 # -105 <= nums[i] <= 105
 
 def three_sum(nums)
-    
+    nums.
 end
