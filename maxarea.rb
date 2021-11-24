@@ -27,5 +27,30 @@
 # 0 <= height[i] <= 104
 
 def max_area(height)
-    height
+    max = 0
+    if height[0] > height[-1]
+        max= (height[-1]* (height.length-1))
+    else
+        max= (height[0]* (height.length-1))
+    end
+    
+    s= 0;
+    f= height.length-1
+    while s < f
+        if height[s]< height[f]
+            if (height[s] * (f-s)) > max
+                max = height[s] * (f-s)
+            end
+            s+=1
+        else
+            if (height[f] * (f-s)) > max
+                max = height[f] * (f-s)
+            end
+            f-=1
+        end
+    end
+    max
 end
+
+p max_area([1,8,6,2,5,4,8,3,7])
+p max_area([4,3,2,1,4])
