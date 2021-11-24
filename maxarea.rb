@@ -27,5 +27,5 @@
 # 0 <= height[i] <= 104
 
 def max_area(height)
-    
+    height
 end
