@@ -30,3 +30,4 @@ def get_sum(a, b)
 end
 
 p get_sum(1, -4)
+p get_sum(1, 100)
