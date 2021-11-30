@@ -39,4 +39,3 @@ end
 
 p get_sum(1, -4)
 p get_sum(1, 100)
-p get_sum(-1, 1)
