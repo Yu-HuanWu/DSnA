@@ -28,7 +28,7 @@ def get_sum(a, b)
     # end
     # result.length
 
-    carry = nil
+    carry = (a & b)
     while a != 0 && b != 0
         carry = ((a & b) << 1);
         a = a ^ b;
@@ -39,3 +39,4 @@ end
 
 p get_sum(1, -4)
 p get_sum(1, 100)
+p get_sum(-1, 1)
