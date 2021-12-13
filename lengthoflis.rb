@@ -27,19 +27,19 @@ require "byebug"
 def length_of_lis(nums)
     list=[]
     i= 0
-    while i  < nums.length
-        list<< 1
+    while i  < nums.length #5
+        list<< 1 #[1, 2, 1, 3, 3, 4]
         j=0
         while j< i
             # byebug
-            if nums[j]< nums[i]
-                list[i] > list[j]+1 ? list[i] : list[i]= list[j]+1
+            if nums[j]< nums[i] #2, 3
+                list[i] > list[j]+1 ? list[i] : list[i]= list[j]+1 #3 > 4
             end
             j+=1
         end
         i+=1
     end
-    list[-1]
+    list
 end
 
 p length_of_lis([0,1,0,3,2,3])
