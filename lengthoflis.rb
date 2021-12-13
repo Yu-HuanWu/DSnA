@@ -39,7 +39,7 @@ def length_of_lis(nums)
         end
         i+=1
     end
-    list
+    list.sort[-1]
 end
 
 p length_of_lis([0,1,0,3,2,3])
