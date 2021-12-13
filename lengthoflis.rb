@@ -22,6 +22,7 @@ Input: nums = [7,7,7,7,7,7,7]
 Output: 1
  
 =end
+require "byebug"
 
 def length_of_lis(nums)
     list=[]
@@ -30,6 +31,7 @@ def length_of_lis(nums)
         list<< 1
         j=0
         while j< i
+            # byebug
             if nums[j]< nums[i]
                 list[i] > list[j]+1 ? list[i] : list[i]= list[j]+1
             end
@@ -37,7 +39,7 @@ def length_of_lis(nums)
         end
         i+=1
     end
-    list.sort[-1]
+    list[-1]
 end
 
 p length_of_lis([0,1,0,3,2,3])
