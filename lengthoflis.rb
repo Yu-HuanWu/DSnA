@@ -26,3 +26,4 @@ def length_of_lis(nums)
 end
 
 p length_of_lis([0,1,0,3,2,3])
+p length_of_lis([7,7,7,7,7,7,7])
