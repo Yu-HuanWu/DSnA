@@ -11,3 +11,17 @@ function race(promises) {
     })
     return result
 }
+
+const promise1 = new Promise((resolve, reject) => {
+    setTimeout(reject, 500, 'one');
+});
+
+const promise2 = new Promise((resolve, reject) => {
+    setTimeout(resolve, 1000, 'two');
+});
+
+race([promise1, promise2]).then((value)=>{
+    console.log(value)
+}).catch((error)=>{
+    console.log(error)
+})
