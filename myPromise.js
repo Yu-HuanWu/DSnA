@@ -1,209 +1,94 @@
 class MyPromise {
     constructor(executor) {
         // your code here
-        this.state = "pending";
-        this.value= undefined;
-        this.handlers= [];
-
+        this.state = 'pending';
+        this.handlers = [];
         try {
-            executor(MyPromise.resolve, MyPromise.reject);
+            executor(this._resolve.bind(this), this._reject.bind(this));
         } catch (err) {
-            MyPromise.reject(err)
+            this._reject(err);
         }
     }
 
     then(onFulfilled, onRejected) {
         // your code here
-        return new MyPromise((res, rej)=> {
-            this.addHandlers({
-                onFulfilled: function(value){
-                    if (!onFulfilled) {
-                        return res(value);
-                    }
-                    try {
-                        return res(onFulfilled(value))
-                    } catch(err) {
-                        return rej(err);
+        return new MyPromise((res, rej) => {
+            this.handlers.push({
+                fulfilled: (value) => {
+                    if (typeof onFulfilled !== 'function') {
+                        res(value);
+                        return
+                    } try {
+                        res(onFulfilled(value));
+                    } catch (err) {
+                        rej(err);
                     }
                 },
-                onRejected: function(value){
-                    if (!onRejected) {
-                        return rej(value);
-                    }
-                    try {
-                        return res(onRejected(value))
-                    } catch(err) {
-                        return rej(err);
+                rejected: (error) => {
+                    if (typeof onRejected !== 'function') {
+                        rej(error);
+                        return;
+                    } try {
+                        res(onRejected(error));
+                    } catch (err) {
+                        rej(err);
                     }
                 }
             });
-        });
+            this.exectuteHandlers();
+        })
     }
 
-    addHandlers(handlers) {
-        this.handlers.push(handlers);
-        this.executeHandlers();
+    exectuteHandlers() {
+        if (this.state === 'pending') return;
+        this.handlers.forEach((handler) => {
+            queueMicrotask(() => {
+                handler[this.state](this.result);
+            })
+        })
+        this.handlers = [];
     }
 
-    executeHandlers() {
-        if (this.state === "pending") {
-            return null;
+    _resolve(value) {
+        if (this.state !== 'pending') return;
+        if (value instanceof MyPromise) {
+            value.then(this._resolve.bind(this), this._reject.bind(this));
+            return;
         }
 
-        this.handlers.forEach((handler)=>{
-            if (this.state === "fulfilled") {
-                return handler.onFulfilled(this.value);
-            }
-            return handler.onRejected(this.value);
-        });
-        this.handlers= []
+        this.state = 'fulfilled';
+        this.result = value;
+        this.exectuteHandlers();
+    }
+
+    _reject(error) {
+        if (this.state !== 'pending') return;
+        this.state = 'rejected';
+        this.result = error;
+        this.exectuteHandlers();
     }
 
     catch(onRejected) {
         // your code here
-        return this.then(null, onRejected);
+        return this.then(undefined, onRejected);
     }
 
     static resolve(value) {
         // your code here
-        console.log(this)
-        this.updateResult(value, "fulfilled");
+        return new MyPromise((res) => {
+            res(value);
+        })
     }
 
     static reject(value) {
         // your code here
-        this.updateResult(value, 'rejected');
-    }
-
-    updateResult(value, state) {
-        console.log('updateResult')
-        setTimeout(() => {
-            if (this.state !== 'pending') {
-                return;
-            }
-
-            if (value instanceof MyPromise) {
-                return value.then(MyPromise.resolve, MyPromise.reject);
-            }
-
-            this.value = value;
-            this.state = state;
-            this.executeHandlers();
-        }, 0);
+        return new MyPromise((res, rej) => {
+            rej(value)
+        })
     }
 }
 
-
-// const STATE = {
-//     PENDING: 'PENDING',
-//     FULFILLED: 'FULFILLED',
-//     REJECTED: 'REJECTED',
-// }
-// class MyPromise {
-//     constructor(callback) {
-//         // Initial state of Promise is empty
-//         this.state = STATE.PENDING;
-//         this.value = undefined;
-//         this.handlers = [];
-//         // Invoke callback by passing the _resolve and the _reject function of our class
-//         try {
-//             callback(this._resolve, this._reject);
-//         } catch (err) {
-//             this._reject(err)
-//         }
-//     }
-
-//     _resolve = (value) => {
-//         this.updateResult(value, STATE.FULFILLED);
-//     }
-
-//     _reject = (error) => {
-//         this.updateResult(error, STATE.REJECTED);
-//     }
-
-//     updateResult(value, state) {
-//         // This is to make the processing async
-//         setTimeout(() => {
-//             /*
-//               Process the promise if it is still in pending state. 
-//               An already rejected or resolved promise is not processed
-//             */
-//             if (this.state !== STATE.PENDING) {
-//                 return;
-//             }
-
-//             // check is value is also a promise
-//             if (value instanceof MyPromise) {
-//                 return value.then(this._resolve, this._reject);
-//             }
-
-//             this.value = value;
-//             this.state = state;
-
-//             // execute handlers if already attached
-//             this.executeHandlers();
-//         }, 0);
-//     }
-
-//     then(onSuccess, onFail) {
-//         return new MyPromise((res, rej) => {
-//             this.addHandlers({
-//                 onSuccess: function (value) {
-//                     // if no onSuccess provided, resolve the value for the next promise chain
-//                     if (!onSuccess) {
-//                         return res(value);
-//                     }
-//                     try {
-//                         return res(onSuccess(value))
-//                     } catch (err) {
-//                         return rej(err);
-//                     }
-//                 },
-//                 onFail: function (value) {
-//                     // if no onFail provided, reject the value for the next promise chain
-//                     if (!onFail) {
-//                         return rej(value);
-//                     }
-//                     try {
-//                         return res(onFail(value))
-//                     } catch (err) {
-//                         return rej(err);
-//                     }
-//                 }
-//             });
-//         });
-//     }
-
-//     addHandlers(handlers) {
-//         this.handlers.push(handlers);
-//         this.executeHandlers();
-//     }
-
-//     executeHandlers() {
-//         // Don't execute handlers if promise is not yet fulfilled or rejected
-//         if (this.state === STATE.PENDING) {
-//             return null;
-//         }
-
-//         // We have multiple handlers because add them for .finally block too
-//         this.handlers.forEach((handler) => {
-//             if (this.state === STATE.FULFILLED) {
-//                 return handler.onSuccess(this.value);
-//             }
-//             return handler.onFail(this.value);
-//         });
-//         // After processing all handlers, we reset it to empty.
-//         this.handlers = [];
-//     }
-
-//     catch(onFail) {
-//         return this.then(null, onFail);
-//     }
-
-//     // finally(callback) {
-//     // }
-// }
-
+// testcase 1
 let myFirstPromise = new MyPromise((res, reject) => {
     // We call resolve(...) when what we were doing asynchronously was successful, and reject(...) when it failed.
     // In this example, we use setTimeout(...) to simulate async code.
@@ -218,3 +103,9 @@ myFirstPromise.then((successMessage) => {
     // It doesn't have to be a string, but if it is only a succeed message, it probably will be.
     console.log("Yay! " + successMessage)
 });
+
+// testcase 2
+const mp = MyPromise.resolve(1)
+mp.then((data) => {
+    console.log(data)
+})
