@@ -4,14 +4,16 @@ function all(promises) {
         let resolve = new Array(promises.length);
         if (promises.length=== 0) {
             res(resolve);
+            return;
         };
-        let pending = promises.length
+        let pendingCount = promises.length;
+
         promises.forEach((promise, i)=> {
-            promise.then(
+            Promise.resolve(promise).then(
                 function(result) {
                 resolve[i] = result;
-                pending -= 1;
-                if (pending === 0) {
+                pendingCount -= 1;
+                if (pendingCount === 0) {
                     res(resolve);
                 }
             }, 
