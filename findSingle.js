@@ -22,6 +22,7 @@ function findSingle(arr) {
 
 
 
-// const arr = [10, 2, 2, 1, 0, 0, 10]
+const arr1 = [10, 2, 2, 1, 0, 0, 10]
+console.log(findSingle(arr1))
 const arr= [1, 1, 2]
 console.log(findSingle(arr) )// 1
