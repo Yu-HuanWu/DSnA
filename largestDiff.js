@@ -23,7 +23,7 @@ function largestDiff(arr){
 console.log(largestDiff([-1, 2, 3, 10, 9]))
 // 11,  obviously Math.abs(-1 - 10) is the largest
 
-largestDiff([])
+console.log(largestDiff([]))
 // 0
 
 largestDiff([1])
