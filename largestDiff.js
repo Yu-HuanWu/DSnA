@@ -26,5 +26,5 @@ console.log(largestDiff([-1, 2, 3, 10, 9]))
 console.log(largestDiff([]))
 // 0
 
-largestDiff([1])
+console.log(largestDiff([1]))
 // 0
