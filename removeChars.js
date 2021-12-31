@@ -28,7 +28,7 @@ function removeChars(input) {
 
 
 console.log(removeChars('ab')) // 'a'
-removeChars('abc') // ''
+console.log(removeChars('abc')) // ''
 console.log(removeChars('cabbaabcca')) // 'caa'
 
 
