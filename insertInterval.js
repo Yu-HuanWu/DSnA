@@ -3,6 +3,12 @@ function numberRange(start, end) {
 }
 
 var insert = function (intervals, newInterval) {
+    if (intervals.length === 0) {
+        return [newInterval]
+    }
+    if (intervals[0][0]>= newInterval[0] && intervals[intervals.length-1][1]<= newInterval[1]){
+        return [newInterval]
+    }
     let resultArr= [];
     let newInt = [];
     intervals.forEach(interval => {
@@ -20,6 +26,8 @@ var insert = function (intervals, newInterval) {
             } else {
                 newInt.push(newInterval[1])
             }
+        } else {
+            newInt.push(newInterval[1])
         }
     })
 
@@ -40,10 +48,10 @@ var insert = function (intervals, newInterval) {
 let intervals = [[1, 2], [3, 5], [6, 7], [8, 10], [12, 16]]
 let newInterval = [4, 8]
 
-intervals = [[1, 3], [6, 9]]
-newInterval = [2, 5]
+// intervals = [[1, 3], [6, 9]]
+// newInterval = [2, 5]
 
-intervals = [[2, 5], [6, 7], [8, 9]];
-newInterval= [0, 1];
+// intervals = [[2, 5], [6, 7], [8, 9]];
+// newInterval= [0, 1];
 // console.log(numberRange(1, 3))
 console.log(insert(intervals, newInterval)) //[[1,2],[3,10],[12,16]]
