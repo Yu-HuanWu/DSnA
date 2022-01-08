@@ -22,34 +22,52 @@
 // intervals[i].length == 2
 // 0 <= starti <= endi <= 104
 
+// var merge = function (intervals) {
+//     let result=[]
+//     intervals= intervals.sort((a,b)=> a[0]-b[0])
+//     for (let i = 0; i < intervals.length-1; i++) {
+//         // console.log(intervals)
+//         // console.log(i)
+//         // console.log(intervals.length)
+//         if (intervals[i][1] >= intervals[i+1][0]){
+//             if (intervals[i][1]<= intervals[i+1][1]){
+//                 result.push([intervals[i][0], intervals[i+1][1]]);
+//                 let temp= result;
+//                 temp= temp.concat(intervals.slice(i+2));
+//                 intervals= temp;
+//                 result= []
+//                 i= -1
+//             } else {
+//                 result.push([intervals[i][0], intervals[i][1]]);
+//                 let temp = result;
+//                 temp = temp.concat(intervals.slice(i + 2));
+//                 intervals = temp;
+//                 result = []
+//                 i = -1
+//             }
+//         } else {
+//             result.push(intervals[i])
+//         }
+//     }
+//     return intervals
+// };
+
 var merge = function (intervals) {
-    let result=[]
-    intervals= intervals.sort((a,b)=> a[0]-b[0])
-    for (let i = 0; i < intervals.length-1; i++) {
-        // console.log(intervals)
-        // console.log(i)
-        // console.log(intervals.length)
-        if (intervals[i][1] >= intervals[i+1][0]){
-            if (intervals[i][1]<= intervals[i+1][1]){
-                result.push([intervals[i][0], intervals[i+1][1]]);
-                let temp= result;
-                temp= temp.concat(intervals.slice(i+2));
-                intervals= temp;
-                result= []
-                i= -1
-            } else {
-                result.push([intervals[i][0], intervals[i][1]]);
-                let temp = result;
-                temp = temp.concat(intervals.slice(i + 2));
-                intervals = temp;
-                result = []
-                i = -1
-            }
-        } else {
-            result.push(intervals[i])
+    intervals = intervals.sort((a, b) => a[0] - b[0])
+    const result = []
+
+    for (let i = 0; i < intervals.length; i++) {
+        let start = intervals[i][0]
+        let end = intervals[i][1]
+        while (intervals[i + 1] && end >= intervals[i + 1][0]) {
+            end = Math.max(end, intervals[i + 1][1])
+            i++
         }
+        result.push([start, end])
     }
-    return intervals
+
+    return result
+
 };
 
 console.log(merge([[1, 4], [4, 5]]))
