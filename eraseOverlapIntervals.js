@@ -28,5 +28,7 @@
 //     - 5 * 104 <= starti < endi <= 5 * 104
 
 var eraseOverlapIntervals = function (intervals) {
+    let counter;
 
+    return counter
 };
