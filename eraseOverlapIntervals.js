@@ -29,6 +29,8 @@
 
 var eraseOverlapIntervals = function (intervals) {
     let counter;
-    intervals.forEach()
+    for (let i= 0; i< intervals.length; i++){
+        
+    }
     return counter
 };
